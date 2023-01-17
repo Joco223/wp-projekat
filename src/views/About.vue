@@ -1,18 +1,15 @@
 <template>
-  <div id="app">
-    <NavBar />
+  <div id="about">
+    <img alt="Vue logo" src="../assets/logo.png" />
+    <h2>O nama</h2>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import NavBar from "./components/NavBar.vue";
 
 export default defineComponent({
-  name: "App",
-  components: {
-    NavBar,
-  },
+  name: "AboutPage",
 });
 </script>
 
