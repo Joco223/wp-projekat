@@ -7,6 +7,9 @@
       <li>
         <router-link to="/about">About</router-link>
       </li>
+      <li>
+        <router-link to="/event/:id">Event</router-link>
+      </li>
     </ul>
   </div>
   <router-view></router-view>
