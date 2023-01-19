@@ -1,17 +1,16 @@
 <template>
-  <div id="navbar">
-    <ul>
-      <li>
-        <router-link to="/">Home page</router-link>
-      </li>
-      <li>
-        <router-link to="/about">About</router-link>
-      </li>
-      <li>
-        <router-link to="/event/:id">Event</router-link>
-      </li>
-    </ul>
-  </div>
+  <el-menu id="navbar" mode="horizontal" default-actuve="0">
+    <el-menu-item index="0">
+      <router-link to="/">Home page</router-link>
+    </el-menu-item>
+    <el-menu-item index="1">
+      <router-link to="/about">About</router-link>
+    </el-menu-item>
+    <div class="flex-grow" />
+    <el-menu-item index="2">
+      <router-link to="/register">Register</router-link>
+    </el-menu-item>
+  </el-menu>
   <router-view></router-view>
 </template>
 
@@ -24,24 +23,8 @@ export default defineComponent({
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-
-ul {
-  list-style-type: none;
-  padding: 0px;
-}
-li {
-  display: inline-block;
-  margin: 0px 10px;
-}
-router-link {
-  color: #42b983;
+a {
+  text-decoration: none;
+  user-select: none;
 }
 </style>

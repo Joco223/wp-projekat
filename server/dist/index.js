@@ -1,4 +1,13 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -6,57 +15,34 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const body_parser_1 = __importDefault(require("body-parser"));
+const surrealdb_1 = require("./utils/surrealdb");
 const cors = require("cors");
 dotenv_1.default.config();
+(0, surrealdb_1.initDB)();
 const app = (0, express_1.default)();
-const port = 8001;
-app.use(body_parser_1.default.json());
-app.use(cors());
-app.use(express_1.default.urlencoded({ extended: true }));
-// ! TEST DATA FOR TESTING FRONTEND
-let events = [
-    {
-        id: 1,
-        name: 'Charity Ball',
-        category: 'Fundraising',
-        description: 'Spend an elegant night of dinner and dancing with us as we raise money for our new rescue farm.',
-        featuredImage: 'https://placekitten.com/500/500',
-        images: [
-            'https://placekitten.com/500/500',
-            'https://placekitten.com/500/500',
-            'https://placekitten.com/500/500',
-        ],
-        location: '1234 Fancy Ave',
-        date: '12-25-2019',
-        time: '11:30'
-    },
-    {
-        id: 2,
-        name: 'Rescue Center Goods Drive',
-        category: 'Adoptions',
-        description: 'Come to our donation drive to help us replenish our stock of pet food, toys, bedding, etc. We will have live bands, games, food trucks, and much more.',
-        featuredImage: 'https://placekitten.com/500/500',
-        images: [
-            'https://placekitten.com/500/500'
-        ],
-        location: '1234 Dog Alley',
-        date: '11-21-2019',
-        time: '12:00'
-    }
-];
+const port = process.env.PORT || 7777;
+app.use(body_parser_1.default.json()); // * Parsing JSON data
+app.use(body_parser_1.default.urlencoded({ extended: false }));
+app.use(cors()); // * Middleware for CORS errors
+// * Get routes
 app.get('/', (req, res) => {
     res.send('Express + TS server');
 });
-// ! ROUTE FOR TESTING THE FRONTEND
-app.get('/events', (req, res) => {
-    res.send(events);
-});
-// ! ROUTE FOR TESTING A SINGLE EVENT
-app.get('/events/:id', (req, res) => {
-    const id = Number(req.params.id);
-    const event = events.find(event => event.id === id);
-    res.send(event);
-});
+// * Post routes
+app.post('/register', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    let showName = req.body.show;
+    let email = req.body.email;
+    let username = req.body.user;
+    let password = req.body.pass;
+    console.log(showName);
+    console.log(email);
+    console.log(username);
+    console.log(password);
+    const result = yield (0, surrealdb_1.registerUser)(showName, username, password, email);
+    res.send(result);
+}));
+app.post('/login', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+}));
 app.listen(port, () => {
     console.log("Server is running at http://localhost:" + port);
 });

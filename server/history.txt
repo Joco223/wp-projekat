@@ -1,0 +1,2 @@
+#V2
+CREATE users:test SET name = "test_user"

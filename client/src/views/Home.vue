@@ -1,31 +1,28 @@
 <template>
   <div class="home">
     <h1>Dobrodošli</h1>
+    <button @click="reg">Test register</button>
   </div>
 </template>
 
 <script lang="ts">
+import axios from "axios";
 import { defineComponent } from "vue";
 
 export default defineComponent({
   name: "HomePage",
+
+  methods: {
+    async reg() {
+      const registerTest = await axios.post("http://localhost:8001/register", {
+        show: "Jovan",
+        user: "joco2234",
+        pass: "123",
+        email: "test@test.com",
+      });
+
+      console.log(registerTest);
+    },
+  },
 });
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
-</style>
