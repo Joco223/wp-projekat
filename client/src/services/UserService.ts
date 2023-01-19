@@ -27,4 +27,10 @@ export default {
 
     return result;
   },
+
+  async checkKey(token: string) {
+    const result = await axios.post(BACKEND_URL + "/auth", { tkn: token });
+
+    return result;
+  },
 };

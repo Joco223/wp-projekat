@@ -1,11 +1,14 @@
 import Surreal from "surrealdb.js";
 import { config } from "dotenv";
+const jwt = require('jsonwebtoken');
+
 config();
 
 const {
   SURREAL_DB_URL: db_url,
   SURREAL_DB_USER: db_user,
   SURREAL_DB_PASSWORD: db_pass,
+  JWT_KEY: jwt_key,
 } = process.env;
 
 const db = new Surreal(db_url);
@@ -44,10 +47,45 @@ export async function registerUser(showName :String, username :String, password 
 
     console.log("User " + username + " created");
 
-    return { status: "OK", msg: "User created." };
+    return { status: "OK", msg: "User created."};
   } catch(err) {
     console.log("User " + username + " failed to create");
     return { status: "ERROR", msg: "Failed to create." };
+  }
+}
+
+export async function loginUser(username :String, password :String) {
+  try {
+    let record = await db.select('user:' + username);
+    let user = record[0] as {show: String, user: String, pass: String, email: String};
+
+    if (password == user['pass']) {
+      console.log("User user:" + username + " logged in.");
+
+      const token = jwt.sign(username, jwt_key);
+
+      return { status: "OK" , tkn: token };
+    }else{
+      console.log("Incorrect pass:" + password + " for user:" + username);
+      return { status: "ERROR", msg: "User doesn't exist." };
+    }
+  } catch(err) {
+    console.log("User user:" + username + " doesn't exist.");
+    return { status: "ERROR", msg: "Username or password is incorrect"};
+  }
+}
+
+export function checkKey(token: String) {
+  if (token != "") {
+    const verified = jwt.verify(token, jwt_key) as any;
+
+    if (verified) {
+      return { status: "OK" };
+    }else{
+      return { status: "ERROR" };
+    }
+  } else {
+    return { status: "ERROR" };
   }
 }
 

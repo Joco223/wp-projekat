@@ -1,7 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import bodyParser from "body-parser";
-import { initDB, registerUser } from "./utils/surrealdb";
+import { checkKey, initDB, loginUser, registerUser } from "./utils/surrealdb";
 
 const cors = require("cors");
 
@@ -29,18 +29,26 @@ app.post('/register', async (req, res) => {
   let username = req.body.user;
   let password = req.body.pass;
 
-  console.log(showName);
-  console.log(email);
-  console.log(username);
-  console.log(password);
-
   const result = await registerUser(showName, username, password, email);
 
   res.send(result);
 });
 
 app.post('/login', async (req, res) => {
+  let username = req.body.user;
+  let password = req.body.pass;
 
+  const result = await loginUser(username, password);
+
+  res.send(result);
+});
+
+app.post('/auth', async (req, res) => {
+  let token = req.body.tkn;
+
+  const result = checkKey(token);
+
+  res.send(result);
 });
 
 app.listen(port, () => {

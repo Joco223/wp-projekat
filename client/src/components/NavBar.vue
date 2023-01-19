@@ -1,14 +1,17 @@
 <template>
-  <el-menu id="navbar" mode="horizontal" default-actuve="0">
-    <el-menu-item index="0">
-      <router-link to="/">Home page</router-link>
+  <el-menu
+    id="navbar"
+    mode="horizontal"
+    default-actuve="0"
+    :router="routerValue"
+  >
+    <el-menu-item index="/" route="/">Home</el-menu-item>
+    <el-menu-item index="/about" route="/about">About</el-menu-item>
+    <el-menu-item index="/register" route="/register" v-if="!loggedIn"
+      >Register
     </el-menu-item>
-    <el-menu-item index="1">
-      <router-link to="/about">About</router-link>
-    </el-menu-item>
-    <div class="flex-grow" />
-    <el-menu-item index="2">
-      <router-link to="/register">Register</router-link>
+    <el-menu-item index="/login" route="/login" v-if="!loggedIn"
+      >Login
     </el-menu-item>
   </el-menu>
   <router-view></router-view>
@@ -19,6 +22,19 @@ import { defineComponent } from "vue";
 
 export default defineComponent({
   name: "NavBar",
+
+  data() {
+    return {
+      routerValue: true,
+      loggedIn: localStorage.getItem("key"),
+    };
+  },
+
+  watch: {
+    $route() {
+      this.loggedIn = localStorage.getItem("key");
+    },
+  },
 });
 </script>
 

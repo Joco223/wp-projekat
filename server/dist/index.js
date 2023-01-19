@@ -34,14 +34,19 @@ app.post('/register', (req, res) => __awaiter(void 0, void 0, void 0, function* 
     let email = req.body.email;
     let username = req.body.user;
     let password = req.body.pass;
-    console.log(showName);
-    console.log(email);
-    console.log(username);
-    console.log(password);
     const result = yield (0, surrealdb_1.registerUser)(showName, username, password, email);
     res.send(result);
 }));
 app.post('/login', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    let username = req.body.user;
+    let password = req.body.pass;
+    const result = yield (0, surrealdb_1.loginUser)(username, password);
+    res.send(result);
+}));
+app.post('/auth', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    let token = req.body.tkn;
+    const result = (0, surrealdb_1.checkKey)(token);
+    res.send(result);
 }));
 app.listen(port, () => {
     console.log("Server is running at http://localhost:" + port);
