@@ -71,10 +71,12 @@ export default defineComponent({
         } else {
           this.failed = true;
           this.errMsg = "Username or password is incorrect";
+          this.pass = "";
         }
       } else {
         this.failed = true;
         this.errMsg = "All input fields are required";
+        this.pass = "";
       }
     },
   },

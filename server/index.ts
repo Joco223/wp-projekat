@@ -1,7 +1,8 @@
 import express from "express";
 import dotenv from "dotenv";
 import bodyParser from "body-parser";
-import { checkKey, initDB, loginUser, registerUser } from "./utils/surrealdb";
+import { initDB, loginUser, registerUser } from "./utils/surrealdb";
+import { checkKey } from "./utils/auth";
 
 const cors = require("cors");
 

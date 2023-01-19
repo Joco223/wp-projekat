@@ -16,6 +16,7 @@ const express_1 = __importDefault(require("express"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const surrealdb_1 = require("./utils/surrealdb");
+const auth_1 = require("./utils/auth");
 const cors = require("cors");
 dotenv_1.default.config();
 (0, surrealdb_1.initDB)();
@@ -45,7 +46,7 @@ app.post('/login', (req, res) => __awaiter(void 0, void 0, void 0, function* () 
 }));
 app.post('/auth', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let token = req.body.tkn;
-    const result = (0, surrealdb_1.checkKey)(token);
+    const result = (0, auth_1.checkKey)(token);
     res.send(result);
 }));
 app.listen(port, () => {

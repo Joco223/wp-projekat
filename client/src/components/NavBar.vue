@@ -13,6 +13,9 @@
     <el-menu-item index="/login" route="/login" v-if="!loggedIn"
       >Login
     </el-menu-item>
+    <el-menu-item index="/" route="/" @click="logOut" v-if="loggedIn"
+      >Log out
+    </el-menu-item>
   </el-menu>
   <router-view></router-view>
 </template>
@@ -28,6 +31,13 @@ export default defineComponent({
       routerValue: true,
       loggedIn: localStorage.getItem("key"),
     };
+  },
+
+  methods: {
+    logOut() {
+      localStorage.removeItem("key");
+      this.loggedIn = localStorage.getItem("key");
+    },
   },
 
   watch: {
